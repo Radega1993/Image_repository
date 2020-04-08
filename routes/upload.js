@@ -9,6 +9,7 @@ const path = require('path');
 // default options
 app.use(fileUpload());
 
+
 let counter = 0;
 
 const guardarDB = () => {
@@ -35,6 +36,7 @@ app.post('/upload', function(req, res) {
 
   cargarDB();
 
+  console.log(req.files);
   if (!req.files) {
     return res.status(400)
       .json({
@@ -63,7 +65,7 @@ app.post('/upload', function(req, res) {
   }
 
   // cambiar nombre archivo
-  let nombreArchivo = `${ counter }.png`;
+  let nombreArchivo = `${ counter }.${ extension }`;
 
   archivo.mv(`uploads/${ nombreArchivo }`, (err) => {
 
@@ -80,6 +82,7 @@ app.post('/upload', function(req, res) {
       ok: true,
       img: nombreArchivo
     });
+
     counter++;
     guardarDB();
   })
